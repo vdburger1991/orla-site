@@ -2,240 +2,608 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<title>Orla — Menopause &amp; HRT Tracker</title>
-<meta name="description" content="Orla is a private menopause and HRT symptom tracker for iPhone. Log symptoms, cycles and hormone therapy over months, then turn it into one clear PDF for your next appointment.">
+<title>Orla — Menopause &amp; HRT Tracker for iPhone</title>
+<meta name="description" content="Orla is a private menopause and HRT symptom tracker for iPhone. Log symptoms, cycles and hormone therapy over months, then export one clear PDF for your next appointment. 7 days free.">
 <link rel="canonical" href="https://orla.tjbventures.ai/">
 
-<meta name="theme-color" content="#5B2A47">
+<meta name="theme-color" content="#3A2130">
 <meta name="color-scheme" content="light">
 <meta name="robots" content="index,follow">
 <meta name="author" content="TJB Ventures FZE">
 <meta name="apple-itunes-app" content="app-id=6797506794">
 
+<!-- Meta domain verification.
+     TJ: Business Settings -> Brand safety and suitability -> Domains -> add
+     orla.tjbventures.ai -> "Add a meta-tag to your website source code".
+     Paste ONLY the content value (a long hex string) in place of the
+     placeholder below. This must be done before the pixel can be
+     attributed to this domain in Events Manager. -->
+<meta name="facebook-domain-verification" content="7dac89d0v8kimunca64u6yaeb7lar8">
+
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Orla">
-<meta property="og:title" content="Orla — Menopause &amp; HRT Tracker">
-<meta property="og:description" content="Walk into your appointment with the whole story written down. A private menopause and HRT symptom tracker for iPhone.">
+<meta property="og:title" content="Orla — Menopause &amp; HRT Tracker for iPhone">
+<meta property="og:description" content="Walk into your appointment with the whole story written down. A private menopause and HRT tracker for iPhone. 7 days free.">
 <meta property="og:url" content="https://orla.tjbventures.ai/">
 <meta property="og:image" content="https://orla.tjbventures.ai/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Orla — Menopause &amp; HRT Tracker">
-<meta name="twitter:description" content="Walk into your appointment with the whole story written down. A private menopause and HRT symptom tracker for iPhone.">
+<meta name="twitter:title" content="Orla — Menopause &amp; HRT Tracker for iPhone">
+<meta name="twitter:description" content="Walk into your appointment with the whole story written down. A private menopause and HRT tracker for iPhone. 7 days free.">
 <meta name="twitter:image" content="https://orla.tjbventures.ai/assets/og-image.png">
 
 <link rel="icon" type="image/svg+xml" href="/assets/orla-icon-plum.svg">
 <link rel="apple-touch-icon" href="/assets/orla-avatar-1024.png">
+<link rel="preload" as="image" href="/assets/webp/hero-log.webp" fetchpriority="high">
 
 <style>
+/* ---------------------------------------------------------------
+   Orla brand tokens — values lifted from
+   40-code/orla/MenoTracker/DesignSystem/Colors.xcassets
+   accent-primary #5B2A47 · accent-pressed #43203A · surface-canvas #F5EDE1
+   surface-raised #FCF8F1 · border-hairline #DED0BC · text-primary #2E241C
+   text-secondary #6E6154 · accent-warm #C0623A · warm-ink #A44E2C
+   --ground is the dark hero field, the register of the paid statics.
+   --------------------------------------------------------------- */
 :root{
-  /* Orla brand tokens — match DesignSystem/Colors.swift */
-  --canvas:#F5EDE1; --raised:#FCF8F1; --hairline:#DED0BC;
-  --ink:#2E241C; --ink-2:#6E6154; --ink-3:#9A8B79;
+  --canvas:#F5EDE1; --raised:#FCF8F1; --sunken:#EFE5D6; --hairline:#DED0BC;
+  --ink:#2E241C; --ink-2:#6E6154;
   --plum:#5B2A47; --plum-pressed:#43203A;
   --terra:#A44E2C; --terra-bright:#C0623A;
+  --ground:#3A2130; --ground-deep:#23131C;
+  --on-ground:#F5EDE1; --on-ground-2:#DCC8CF; --on-ground-3:#C4AAB4;
+  --sand:#E0A98A;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
-  --gutter:clamp(1.25rem,5vw,2rem); --colw:64rem;
+  --gutter:clamp(1.25rem,5.5vw,2.5rem); --colw:70rem;
+  --consent-h:0px;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--sans);
-  font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden}
 img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.015em;margin:0}
+p{margin:0}
 a{color:var(--plum)}
+a:focus-visible,button:focus-visible,.badge:focus-visible{
+  outline:3px solid var(--terra-bright);outline-offset:3px;border-radius:6px}
 .wrap{max-width:var(--colw);margin:0 auto;padding:0 var(--gutter)}
-.narrow{max-width:42rem}
+.eyebrow{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0}
 
-/* ---- masthead ---- */
-.site-head{padding:clamp(1.5rem,4vw,2.25rem) 0}
-.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
-.brand svg,.brand img{width:34px;height:34px;flex:none;border-radius:8px}
-.brand .word{font-family:var(--serif);font-weight:600;font-size:1.5rem;letter-spacing:-.01em}
+/* ---------- the Apple badge. Apple's own SVG, unaltered.
+     Guidelines: minimum height 40px on web, clear space of at least 10%
+     of the badge height on every side, never recoloured, never redrawn,
+     nothing placed inside the clear space. ---------- */
+.badge{display:inline-block;line-height:0;padding:4px;margin:-4px}
+.badge img{height:48px;width:143.6px}
+.badge:hover{opacity:.88}
+@media (max-width:400px){.badge img{height:44px;width:131.6px}}
 
-/* ---- hero ---- */
-.hero{padding:clamp(1.5rem,5vw,3rem) 0 clamp(2rem,4.5vw,3rem)}
-.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;font-weight:600;
-  color:var(--terra);margin:0 0 1rem}
-h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,6.2vw,3.5rem);line-height:1.08;
-  letter-spacing:-.015em;margin:0;max-width:20ch}
-.lede{color:var(--ink-2);font-size:clamp(1.05rem,2.2vw,1.2rem);margin:1.4rem 0 0;max-width:44ch}
-.rule{height:2px;width:3.5rem;background:var(--terra-bright);margin:1.8rem 0 0;border-radius:2px}
+/* ---------- hero ---------- */
+.hero{background:var(--ground);color:var(--on-ground);overflow:hidden}
+.masthead{display:flex;align-items:center;gap:.6rem;padding:1.4rem 0 0}
+.masthead img{width:28px;height:28px}
+.masthead .word{font-family:var(--serif);font-size:1.4rem;font-weight:600;letter-spacing:-.01em}
+.hero-grid{display:grid;gap:0}
+.hero-copy{padding:1.6rem 0 0}
+.hero .eyebrow{color:var(--sand)}
+h1{font-size:clamp(2.35rem,9.6vw,3rem);line-height:1.06;margin:.85rem 0 0;text-wrap:pretty}
+.subline{color:var(--on-ground-2);font-size:1.03rem;line-height:1.5;margin:.85rem 0 0;max-width:32ch}
+.cta{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;margin:1.5rem 0 0}
+.trial{display:flex;flex-direction:column;gap:.1rem}
+.trial b{font-family:var(--serif);font-size:1.2rem;font-weight:600;line-height:1.1}
+.trial span{font-size:.72rem;color:var(--on-ground-3);line-height:1.25}
+.cta-note{font-size:.73rem;color:var(--on-ground-3);margin:.75rem 0 0;max-width:40ch}
+.hero-shot{position:relative;height:190px;margin:1.2rem 0 0}
+.device{position:absolute;right:-26px;top:0;width:min(66vw,252px);
+  border:7px solid var(--ground-deep);border-bottom:none;
+  border-radius:30px 30px 0 0;overflow:hidden;background:var(--canvas);
+  box-shadow:0 -8px 44px rgba(0,0,0,.34)}
+.device img{width:100%}
 
-.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.4rem;margin:2.2rem 0 0}
-.btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--plum);color:var(--canvas);
-  text-decoration:none;font-weight:600;font-size:1rem;padding:.85rem 1.5rem;border-radius:999px;
-  transition:background .15s ease}
-.btn:hover{background:var(--plum-pressed)}
-.price{color:var(--ink-2);font-size:.95rem}
+/* ---------- sections ---------- */
+.section{padding:clamp(2.6rem,7vw,4.5rem) 0}
+.section h2{font-size:clamp(1.55rem,5.4vw,2.35rem);line-height:1.14;color:var(--plum)}
+.proof{display:grid;gap:2.2rem;margin:0}
+.proof .eyebrow{color:var(--terra)}
+.proof h3{font-size:1.35rem;line-height:1.2;color:var(--plum);margin:.5rem 0 0}
+.proof p{color:var(--ink-2);font-size:1rem;margin:.55rem 0 0}
+.proof-item + .proof-item{border-top:1px solid var(--hairline);padding-top:2.2rem}
 
-/* ---- shots ---- */
-.shots{display:flex;gap:clamp(.75rem,2vw,1.5rem);overflow-x:auto;
-  padding:0 var(--gutter) 1.25rem max(var(--gutter),calc((100vw - var(--colw))/2 + var(--gutter)));
-  scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;
-  scrollbar-width:none}
-.shots::-webkit-scrollbar{display:none}
-.shots img{width:clamp(190px,26vw,250px);flex:none;border-radius:22px;
-  border:1px solid var(--hairline);scroll-snap-align:center;
-  box-shadow:0 12px 32px -18px rgba(46,36,28,.55)}
+/* the real export, drawn from PDFExportService.swift — no invented rows */
+.export-card{margin:1.1rem 0 0;background:var(--raised);border:1px solid var(--hairline);
+  border-radius:14px;padding:1.15rem 1.15rem 1rem}
+.export-card .mark{font-family:var(--serif);font-weight:700;font-size:.82rem;
+  letter-spacing:.16em;color:var(--plum)}
+.export-card .doctitle{font-family:var(--serif);font-weight:600;font-size:1.05rem;margin:.45rem 0 .2rem}
+.export-card .range{font-size:.75rem;color:var(--ink-2)}
+.export-tbl{width:100%;border-collapse:collapse;margin:.85rem 0 0;font-size:.78rem}
+.export-tbl th{text-align:left;font-weight:600;font-size:.62rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-2);padding:0 .5rem .4rem 0}
+.export-tbl td{padding:.32rem .5rem .32rem 0;color:var(--ink);vertical-align:middle}
+.export-tbl .bar{display:inline-block;height:5px;border-radius:3px;background:var(--plum);
+  margin-right:.4rem;vertical-align:middle}
+.export-card .foot{font-size:.65rem;color:var(--ink-2);line-height:1.5;
+  border-top:1px solid var(--hairline);margin:.8rem 0 0;padding:.65rem 0 0}
 
-/* ---- features ---- */
-.section{padding:clamp(2.5rem,6vw,4rem) 0;border-top:1px solid var(--hairline)}
-.section-title{font-family:var(--serif);font-weight:600;font-size:clamp(1.6rem,3.4vw,2.1rem);
-  line-height:1.15;letter-spacing:-.01em;color:var(--plum);margin:0 0 2.4rem}
-.grid{display:grid;gap:2.2rem clamp(1.5rem,4vw,3rem);grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))}
-.feat h3{font-family:var(--serif);font-weight:600;font-size:1.2rem;line-height:1.3;
-  color:var(--ink);margin:0 0 .5rem}
-.feat p{margin:0;color:var(--ink-2);font-size:.98rem}
+/* ---------- screenshot strip ---------- */
+.strip-band{background:var(--sunken);padding:clamp(2.4rem,6vw,4rem) 0}
+.strip{display:flex;gap:clamp(.7rem,2vw,1.3rem);overflow-x:auto;margin:1.4rem 0 0;
+  padding:0 var(--gutter) .4rem;scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.strip img{width:clamp(168px,44vw,210px);flex:none;border-radius:16px;
+  border:1px solid var(--hairline);scroll-snap-align:center}
 
-/* ---- privacy panel ---- */
+/* ---------- privacy ---------- */
 .panel{background:var(--raised);border:1px solid var(--hairline);border-radius:18px;
-  padding:clamp(1.5rem,4vw,2.5rem)}
-.panel h2{font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--plum);margin:0 0 1rem}
-.panel p{margin:0 0 1rem;color:var(--ink-2)}
-.panel p:last-child{margin-bottom:0}
-.panel strong{color:var(--ink)}
+  padding:clamp(1.4rem,4.5vw,2.2rem)}
+.panel h2{margin-bottom:1rem}
+.plist{list-style:none;margin:0;padding:0;display:grid;gap:.8rem}
+.plist li{display:flex;gap:.65rem;align-items:flex-start;font-size:1rem;line-height:1.5}
+.plist svg{flex:none;margin-top:.3rem}
+.site-note{font-size:.8rem;color:var(--ink-2);line-height:1.55;
+  border-top:1px solid var(--hairline);margin:1.1rem 0 0;padding:.9rem 0 0}
 
-/* ---- disclaimer + foot ---- */
-.disclaimer{font-size:.95rem;color:var(--ink-2);border-left:2px solid var(--terra-bright);
-  padding-left:1.1rem;margin:0}
-.foot{border-top:1px solid var(--hairline);margin-top:clamp(2.5rem,6vw,4rem);
-  padding:2rem 0 3.5rem;color:var(--ink-2);font-size:.85rem;line-height:1.7}
-.foot p{margin:.3rem 0}
+/* ---------- faq ---------- */
+.faq{display:grid;gap:1.2rem;margin:1.6rem 0 0}
+.faq .q{font-family:var(--serif);font-weight:600;font-size:1.1rem}
+.faq .a{color:var(--ink-2);font-size:.97rem;margin:.3rem 0 0}
+.faq div + div{border-top:1px solid var(--hairline);padding-top:1.2rem}
+
+/* ---------- closing ---------- */
+.closing{background:var(--ground);color:var(--on-ground);padding:clamp(2.4rem,6.5vw,4rem) 0}
+.closing h2{color:var(--on-ground);font-size:clamp(1.9rem,7vw,2.6rem);line-height:1.08}
+.closing .cta{margin-top:1.4rem}
+
+/* ---------- disclaimer + footer ---------- */
+.disclaimer{font-size:.9rem;color:var(--ink-2);border-left:2px solid var(--terra-bright);
+  padding-left:1rem;max-width:66ch}
+.split{display:grid;gap:2.8rem}
+.foot{padding:1.6rem 0 7rem;color:var(--ink-2);font-size:.8rem;line-height:1.75}
+.foot .links{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;margin:.5rem 0 0}
 .foot a{color:var(--plum);text-decoration:none}
 .foot a:hover{text-decoration:underline}
+hr.rule{border:0;border-top:1px solid var(--hairline);margin:0}
+
+/* ---------- sticky mobile CTA ---------- */
+.sticky{position:fixed;left:0;right:0;bottom:var(--consent-h);z-index:40;
+  background:var(--plum);color:var(--on-ground);
+  padding:.6rem var(--gutter) calc(.6rem + env(safe-area-inset-bottom));
+  display:flex;align-items:center;justify-content:space-between;gap:.8rem;
+  box-shadow:0 -6px 24px rgba(46,36,28,.22);
+  transform:translateY(115%);transition:transform .22s ease;visibility:hidden}
+.sticky.on{transform:translateY(0);visibility:visible}
+.sticky b{font-family:var(--serif);font-size:1rem;font-weight:600;display:block;line-height:1.15}
+.sticky span{font-size:.7rem;color:#D4B9C7;line-height:1.2}
+.sticky .badge img{height:42px;width:125.7px}
+@media (min-width:861px){.sticky{display:none}}
+
+/* ---------- consent bar (non-US only) ---------- */
+.consent{position:fixed;left:0;right:0;bottom:0;z-index:50;display:none;
+  background:var(--raised);border-top:1px solid var(--hairline);
+  padding:.85rem var(--gutter) calc(.85rem + env(safe-area-inset-bottom));
+  font-size:.8rem;line-height:1.5;color:var(--ink-2)}
+.consent.on{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;
+  max-width:var(--colw);margin:0 auto}
+.consent p{flex:1 1 16rem;margin:0}
+.consent .btns{display:flex;gap:.5rem;flex:none}
+.consent button{font:inherit;font-weight:600;cursor:pointer;border-radius:999px;
+  padding:.5rem 1.1rem;border:1px solid var(--plum);background:transparent;color:var(--plum)}
+.consent button.primary{background:var(--plum);color:var(--canvas)}
+
+/* ---------- desktop ---------- */
+@media (min-width:861px){
+  body{font-size:18px}
+  .hero-grid{grid-template-columns:1.05fr .95fr;align-items:center;gap:3rem}
+  .hero-copy{padding:3rem 0 4rem}
+  h1{font-size:clamp(3rem,4.9vw,4.4rem)}
+  .subline{font-size:1.18rem;max-width:34ch}
+  .hero-shot{height:440px;align-self:end;margin:0}
+  .device{position:absolute;right:auto;left:50%;transform:translateX(-50%);top:0;
+    width:min(26vw,320px);border-width:9px;border-radius:38px 38px 0 0}
+  .proof{grid-template-columns:repeat(3,minmax(0,1fr));gap:2.6rem}
+  .proof-item + .proof-item{border-top:0;padding-top:0}
+  .export-card{grid-column:1/-1;max-width:36rem}
+  .strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible;
+    max-width:var(--colw);margin:1.6rem auto 0;padding:0 var(--gutter)}
+  .strip img{width:100%}
+  .split{grid-template-columns:repeat(2,minmax(0,1fr));gap:3rem;align-items:start}
+  .foot{padding-bottom:3.5rem}
+  .closing .inner{display:flex;align-items:center;justify-content:space-between;gap:2.5rem}
+  .closing h2{max-width:16ch}
+  .foot .row{display:flex;justify-content:space-between;gap:1.5rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .sticky{transition:none}
+}
 ::selection{background:#EBDCE4}
 </style>
 </head>
 <body>
 
-<header class="site-head">
-  <div class="wrap">
-    <a class="brand" href="/">
-      <img src="/assets/orla-icon-plum.svg" alt="" width="34" height="34">
-      <span class="word">Orla</span>
-    </a>
-  </div>
-</header>
+<!-- =====================================================================
+     META PIXEL
+     TJ: create the pixel in Events Manager (Data sources -> Add -> Web),
+     copy its numeric ID, and paste it in place of REPLACE_WITH_PIXEL_ID.
+     It appears in EXACTLY TWO places: the constant below and the
+     <noscript> image at the end of <body>. Nothing else needs changing.
+     While the placeholder is in place the page installs a console-logging
+     stub instead of loading Meta's script, so nothing is sent anywhere
+     and the click events can still be verified locally.
+     ===================================================================== -->
+<script>
+var PIXEL_ID = "27813364368363421";
+
+/* ---- which ad sent this visitor -------------------------------------
+   ?v=<variant>  picks the headline/subline pair that matches the ad.
+   ?ad=<token>   becomes the App Store ct= campaign token.
+   Both are read once, sanitised, and used for nothing else.           */
+var ORLA = (function () {
+  var q = new URLSearchParams(location.search);
+  var clean = function (s, fallback) {
+    s = (s || "").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 40);
+    return s || fallback;
+  };
+  var variant = clean(q.get("v"), "default");
+  var VARIANTS = {
+    "default": {
+      h: "Walk into your appointment with the whole story written down.",
+      s: "Log symptoms, cycles and hormone therapy over months, then export one clear PDF."
+    },
+    "347am": {
+      h: "3:47am. Again.",
+      s: "Four taps to log it. Months of it export as one PDF for your next appointment."
+    },
+    "fourtaps": {
+      h: "Log it in four taps. Even at 3am.",
+      s: "Symptom, how strong, when, save. Months of it export as one PDF for your next appointment."
+    },
+    "saidvslogged": {
+      h: "What you said. What you actually logged.",
+      s: "Ten months of hot flashes, night sweats and dose changes, in one document you can hand over."
+    },
+    "handover": {
+      h: "One page to hand your doctor.",
+      s: "A dated record of symptoms, hormone therapy and cycles, exported as one PDF."
+    }
+  };
+  if (!VARIANTS[variant]) { variant = "default"; }
+  return {
+    variant: variant,
+    copy: VARIANTS[variant],
+    ct: clean(q.get("ad"), "meta_lp")
+  };
+})();
+
+/* ---- consent -------------------------------------------------------
+   US visitors: the pixel runs (grant), with Meta's Limited Data Use
+   flag set so California traffic is handled under LDU.
+   Everyone else (UK/EU and anyone whose clock is not on an American
+   timezone): consent is REVOKED before init and only granted if they
+   press Accept.                                                        */
+var ORLA_NEEDS_CONSENT = (function () {
+  try {
+    var tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
+    var lang = (navigator.language || "");
+    return tz.indexOf("America/") !== 0 || lang.toLowerCase() === "en-gb";
+  } catch (e) { return true; }   // unknown -> treat as needing consent
+})();
+
+/* ---- base code ------------------------------------------------------ */
+(function () {
+  if (PIXEL_ID === "REPLACE_WITH_PIXEL_ID") {
+    // No pixel id yet: a stub, so the page and its events can be tested.
+    window.fbq = function () {
+      console.log("[fbq stub]", Array.prototype.slice.call(arguments));
+    };
+    window.fbq.__stub = true;
+    return;
+  }
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+  (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+})();
+
+/* Order matters: dataProcessingOptions and consent both go BEFORE init. */
+fbq('dataProcessingOptions', ['LDU'], 0, 0);
+fbq('consent', ORLA_NEEDS_CONSENT ? 'revoke' : 'grant');
+fbq('init', PIXEL_ID);
+fbq('track', 'PageView');
+fbq('track', 'ViewContent', {
+  content_name: 'orla-landing',
+  content_category: 'orla',
+  variant: ORLA.variant
+});
+</script>
 
 <main>
 
+  <!-- ================= HERO ================= -->
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">Menopause &amp; HRT Tracker · iPhone</p>
-      <h1>Walk into your appointment with the whole story written down.</h1>
-      <p class="lede">Perimenopause and menopause can stretch over years, with symptoms that come
-        and go. Orla keeps the record — quietly, privately, on your terms — so you can be specific
-        instead of guessing.</p>
-      <div class="rule"></div>
-      <div class="cta-row">
-        <a class="btn" href="https://apps.apple.com/app/id6797506794">Download on the App Store</a>
-        <span class="price">$9.99 / month or $49.99 / year</span>
+      <div class="masthead">
+        <img src="/assets/orla-mark-oat.svg" alt="" width="28" height="28">
+        <span class="word">Orla</span>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Menopause &amp; HRT tracker · iPhone</p>
+          <h1 id="h1">Walk into your appointment with the whole story written down.</h1>
+          <p class="subline" id="subline">Log symptoms, cycles and hormone therapy over months, then export one clear PDF.</p>
+          <script>
+            /* Runs the instant the elements exist, before first paint. */
+            document.getElementById('h1').textContent = ORLA.copy.h;
+            document.getElementById('subline').textContent = ORLA.copy.s;
+          </script>
+
+          <div class="cta">
+            <a class="badge appstore" href="https://apps.apple.com/app/id6797506794?pt=129257514&amp;ct=meta_lp&amp;mt=8">
+              <img src="/assets/badge/appstore-badge-white.svg" alt="Download Orla on the App Store" width="143.6" height="48">
+            </a>
+            <span class="trial">
+              <b>7 days free</b>
+              <span>then a monthly or yearly plan</span>
+            </span>
+          </div>
+          <p class="cta-note">Cancel any time in your Apple ID settings. The price for your country is shown in the App&nbsp;Store before you confirm.</p>
+        </div>
+
+        <div class="hero-shot">
+          <div class="device">
+            <img src="/assets/webp/hero-log.webp" width="600" height="1304" fetchpriority="high"
+                 alt="Logging a hot flash in Orla: how strong it was, when it happened, and Save.">
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section aria-label="Screenshots">
-      <div class="shots">
-        <img src="/assets/shots/04-D-today.png" alt="Orla's home screen, showing today's log." width="620" height="1347" loading="lazy">
-        <img src="/assets/shots/03-C-log-symptom.png" alt="Logging a symptom and how strong it is." width="620" height="1347" loading="lazy">
-        <img src="/assets/shots/02-B-hrt.png" alt="A dated record of hormone therapy — type, dose and route." width="620" height="1347" loading="lazy">
-        <img src="/assets/shots/01-A-export.png" alt="Building a PDF summary for a date range." width="620" height="1347" loading="lazy">
-        <img src="/assets/shots/06-F-apple-health.png" alt="Apple Health readings shown next to your own notes." width="620" height="1347" loading="lazy">
-        <img src="/assets/shots/07-G-learn.png" alt="The plain-language article library." width="620" height="1347" loading="lazy">
-      </div>
-  </section>
-
+  <!-- ================= PROOF ================= -->
   <section class="section">
     <div class="wrap">
-      <h2 class="section-title">What Orla does</h2>
-      <div class="grid">
+      <div class="proof">
 
-        <div class="feat">
-          <h3>30+ symptoms, the way you actually experience them</h3>
-          <p>Hot flashes, night sweats, sleep trouble, mood changes, brain fog, joint pain,
-            palpitations, vaginal and urinary changes, libido, skin and hair changes, and more.
-            Record how strong each one is and when it happened — in a few taps, even at 2am.</p>
+        <div class="proof-item">
+          <p class="eyebrow">Four taps</p>
+          <h3>Log it while it is happening.</h3>
+          <p>Pick the symptom, say how strong it was, check the time, save. Thirty-plus symptoms, from hot flashes and night sweats to brain fog and joint pain — and you can backdate anything you missed.</p>
         </div>
 
-        <div class="feat">
-          <h3>A real record of your HRT, not a daily checkbox</h3>
-          <p>Log hormone therapy properly: type, dose and route — patch, gel, spray, tablet and
-            more — plus supplements. When your dose or preparation changes, Orla keeps the previous
-            one on a dated timeline instead of overwriting it. That history is exactly what a doctor
-            asks about.</p>
+        <div class="proof-item">
+          <p class="eyebrow">HRT timeline</p>
+          <h3>Your dose history stays your dose history.</h3>
+          <p>Log hormone therapy properly — type, dose and route: patch, gel, spray, tablet. When the dose or the preparation changes, Orla keeps the old one on a dated timeline instead of overwriting it. That history is exactly what a doctor asks about.</p>
         </div>
 
-        <div class="feat">
-          <h3>Cycle logging that doesn't assume you're still cycling</h3>
-          <p>Periods in the transition get irregular, skip, or stop — and plenty of people aren't
-            cycling at all. Orla logs whatever is actually happening, without forcing a "cycle" frame
-            on you. Having no cycle to log is a first-class experience here, not a broken one.</p>
+        <div class="proof-item">
+          <p class="eyebrow">The export</p>
+          <h3>One PDF, readable in a short appointment.</h3>
+          <p>Pick a date range. Orla builds one document — a symptom table, then your HRT, supplements and cycle sections. It is a description of what you wrote down, nothing more.</p>
         </div>
 
-        <div class="feat">
-          <h3>Apple Health alongside your own notes</h3>
-          <p>With your permission, Orla can read wrist temperature, heart rate variability, resting
-            heart rate and sleep from Apple Health, and show them next to what you've logged.
-            Read-only — Orla never writes anything back to Health.</p>
-        </div>
-
-        <div class="feat">
-          <h3>A doctor-ready PDF, on demand</h3>
-          <p>Pick a date range and Orla builds a clean summary: how often each symptom showed up,
-            your HRT timeline, and your cycle notes — laid out to be readable in a short
-            appointment. Bring it, print it, or email it ahead.</p>
-        </div>
-
-        <div class="feat">
-          <h3>A plain-language library</h3>
-          <p>Twenty short, readable articles on what happens during the transition and the ways
-            hormone therapy is commonly taken — written in plain English, so you walk in
-            informed.</p>
+        <div class="export-card" aria-label="What the exported PDF contains">
+          <div class="mark">ORLA</div>
+          <div class="doctitle">Summary of what you logged</div>
+          <div class="range">Date range: 1 Jun 2026 – 31 Aug 2026</div>
+          <table class="export-tbl">
+            <thead>
+              <tr><th scope="col">Symptom</th><th scope="col">Days logged</th><th scope="col">Entries</th><th scope="col">Severity recorded</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Hot flashes</td><td><span class="bar" style="width:44px"></span>62</td><td>184</td><td>Mild – Severe</td></tr>
+              <tr><td>Night sweats</td><td><span class="bar" style="width:31px"></span>44</td><td>91</td><td>Mild – Moderate</td></tr>
+              <tr><td>Sleep trouble</td><td><span class="bar" style="width:25px"></span>36</td><td>52</td><td>Moderate</td></tr>
+            </tbody>
+          </table>
+          <p class="foot">Every page carries this line: “Generated by Orla from entries made by the user. Orla is not a medical device and does not diagnose or advise. Discuss anything in this document with a healthcare professional.”</p>
         </div>
 
       </div>
     </div>
   </section>
 
+  <!-- ================= SCREENSHOTS ================= -->
+  <section class="strip-band" aria-label="Screenshots">
+    <div class="wrap"><h2>The real screens.</h2></div>
+    <div class="strip">
+      <img src="/assets/webp/04-D-today.webp" width="420" height="912" loading="lazy" decoding="async" alt="Orla's home screen, showing today's log.">
+      <img src="/assets/webp/03-C-log-symptom.webp" width="420" height="912" loading="lazy" decoding="async" alt="Logging a symptom and how strong it was.">
+      <img src="/assets/webp/02-B-hrt.webp" width="420" height="912" loading="lazy" decoding="async" alt="A dated record of hormone therapy — type, dose and route.">
+      <img src="/assets/webp/01-A-export.webp" width="420" height="912" loading="lazy" decoding="async" alt="Building a PDF summary for a date range.">
+    </div>
+  </section>
+
+  <!-- ================= PRIVACY + FAQ ================= -->
   <section class="section">
-    <div class="wrap narrow">
+    <div class="wrap split">
+
       <div class="panel">
-        <h2>Private by design</h2>
-        <p>Your health record is yours. Orla carries <strong>no ads and no advertising SDKs</strong>,
-          and <strong>no third-party analytics or tracking SDKs</strong> touch your health entries.
-          Your data is never sold.</p>
-        <p>Your logs stay on your device, with optional iCloud sync that you control if you want your
-          record backed up and available across your own devices.</p>
-        <p><a href="https://legal.tjbventures.ai/privacy.html">Read the full privacy policy</a></p>
+        <h2>Private by design.</h2>
+        <ul class="plist">
+          <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="#A44E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>No ads in the app, and no advertising SDKs inside it.</span></li>
+          <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="#A44E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Your entries live in the app's own encrypted storage on your iPhone. We run no server that holds them.</span></li>
+          <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="#A44E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>We do not sell your data.</span></li>
+        </ul>
+        <p class="site-note">About this website: it uses a Meta advertising pixel so we can measure our ads. That is this page, not the app. <a href="https://legal.tjbventures.ai/privacy.html">Read the privacy policy</a>.</p>
+      </div>
+
+      <div>
+        <h2>Before you tap.</h2>
+        <div class="faq">
+          <div>
+            <div class="q">Is it really free for seven days?</div>
+            <p class="a">Yes — seven days free on either plan. It renews afterwards unless you cancel first.</p>
+          </div>
+          <div>
+            <div class="q">How do I cancel?</div>
+            <p class="a">In your Apple ID settings, under Subscriptions, any time before the seven days are up.</p>
+          </div>
+          <div>
+            <div class="q">What does it cost after that?</div>
+            <p class="a">A monthly plan or a yearly one. The App Store shows the price for your country before you confirm anything.</p>
+          </div>
+          <div>
+            <div class="q">Is there an Android version?</div>
+            <p class="a">Not yet. Orla is iPhone only, and needs iOS 17 or later.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= CLOSING CTA ================= -->
+  <section class="closing">
+    <div class="wrap inner">
+      <h2>Start the record tonight.</h2>
+      <div class="cta">
+        <a class="badge appstore" href="https://apps.apple.com/app/id6797506794?pt=129257514&amp;ct=meta_lp&amp;mt=8">
+          <img src="/assets/badge/appstore-badge-white.svg" alt="Download Orla on the App Store" width="143.6" height="48" loading="lazy">
+        </a>
+        <span class="trial">
+          <b>7 days free</b>
+          <span>then a monthly or yearly plan</span>
+        </span>
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap narrow">
-      <p class="disclaimer">Orla is a record-keeping tool, not a medical device, and does not
-        diagnose or give medical advice.</p>
+  <!-- ================= DISCLAIMER ================= -->
+  <section class="section" style="padding-top:clamp(2rem,5vw,3rem);padding-bottom:1.4rem">
+    <div class="wrap">
+      <p class="disclaimer">Orla is a record-keeping tool, not a medical device, and does not diagnose or give medical advice.</p>
     </div>
   </section>
 
 </main>
 
-<footer class="foot">
-  <div class="wrap">
-    <p>Orla is published by TJB Ventures FZE, Building C1, Ajman Free Zone, United Arab Emirates.</p>
-    <p>
-      <a href="https://apps.apple.com/app/id6797506794">App Store</a> &middot;
-      <a href="https://legal.tjbventures.ai/privacy.html">Privacy Policy</a> &middot;
-      <a href="https://legal.tjbventures.ai/disclaimer.html">Disclaimer</a> &middot;
-      <a href="https://legal.tjbventures.ai/support.html">Support</a> &middot;
-      <a href="mailto:orla@tjbventures.ai">orla@tjbventures.ai</a>
-    </p>
+<footer>
+  <div class="wrap"><hr class="rule"></div>
+  <div class="wrap foot">
+    <div class="row">
+      <p>Orla is published by TJB Ventures FZE, Building C1, Ajman Free Zone, United Arab Emirates.</p>
+      <p class="links">
+        <a href="https://legal.tjbventures.ai/privacy.html">Privacy policy</a>
+        <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of use (Apple EULA)</a>
+        <a href="https://legal.tjbventures.ai/support.html">Support</a>
+        <a href="https://legal.tjbventures.ai/disclaimer.html">Disclaimer</a>
+        <a href="mailto:orla@tjbventures.ai">orla@tjbventures.ai</a>
+      </p>
+    </div>
   </div>
 </footer>
+
+<!-- ================= STICKY MOBILE CTA ================= -->
+<div class="sticky" id="sticky">
+  <span class="trial">
+    <b>7 days free</b>
+    <span>then a monthly or yearly plan</span>
+  </span>
+  <a class="badge appstore" href="https://apps.apple.com/app/id6797506794?pt=129257514&amp;ct=meta_lp&amp;mt=8">
+    <img src="/assets/badge/appstore-badge-white.svg" alt="Download Orla on the App Store" width="125.7" height="42" loading="lazy">
+  </a>
+</div>
+
+<!-- ================= CONSENT BAR (non-US visitors only) ================= -->
+<div class="consent" id="consent" role="region" aria-label="Cookies and measurement">
+  <p>We use a Meta advertising pixel on this website to measure our ads. Nothing here reads anything from the Orla app. <a href="https://legal.tjbventures.ai/privacy.html">Privacy policy</a></p>
+  <span class="btns">
+    <button type="button" class="primary" id="consent-yes">Accept</button>
+    <button type="button" id="consent-no">Decline</button>
+  </span>
+</div>
+
+<script>
+(function () {
+  var STORE = "https://apps.apple.com/app/id6797506794";
+  var links = document.querySelectorAll("a.appstore");
+  var href = STORE + "?pt=129257514&ct=" + encodeURIComponent(ORLA.ct) + "&mt=8";
+
+  for (var i = 0; i < links.length; i++) {
+    links[i].setAttribute("href", href);
+    /* Fire the events, then let the browser follow the link normally.
+       No preventDefault, no timers, no script-driven navigation — an
+       auto-redirect is exactly what stalled inside Instagram's in-app
+       browser on 5 Sep. The user taps; iOS hands off to the App Store. */
+    links[i].addEventListener("click", function () {
+      try {
+        fbq('track', 'StartTrial', {
+          content_name: 'orla-landing',
+          variant: ORLA.variant
+        });
+        fbq('trackCustom', 'AppStoreClick', {
+          variant: ORLA.variant,
+          ct: ORLA.ct
+        });
+      } catch (e) { /* measurement must never block the tap */ }
+    });
+  }
+
+  /* ---- sticky CTA: on once the hero CTA has scrolled out ---- */
+  var hero = document.querySelector(".hero .cta");
+  var bar = document.getElementById("sticky");
+  if (hero && bar && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      bar.classList.toggle("on", !entries[0].isIntersecting);
+    }, { rootMargin: "0px 0px -10% 0px" }).observe(hero);
+  }
+
+  /* ---- consent bar: shown to non-US visitors only ---- */
+  var bar2 = document.getElementById("consent");
+  var KEY = "orla-consent";
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+
+  function setBarHeight(px) {
+    document.documentElement.style.setProperty("--consent-h", px + "px");
+  }
+  function decide(granted) {
+    try { fbq('consent', granted ? 'grant' : 'revoke'); } catch (e) {}
+    if (granted) {
+      try {
+        fbq('track', 'PageView');
+        fbq('track', 'ViewContent', {
+          content_name: 'orla-landing',
+          content_category: 'orla',
+          variant: ORLA.variant
+        });
+      } catch (e) {}
+    }
+    try { localStorage.setItem(KEY, granted ? "grant" : "revoke"); } catch (e) {}
+    bar2.classList.remove("on");
+    setBarHeight(0);
+  }
+
+  if (ORLA_NEEDS_CONSENT) {
+    if (saved === "grant") {
+      try { fbq('consent', 'grant'); } catch (e) {}
+    } else if (saved !== "revoke") {
+      bar2.classList.add("on");
+      setBarHeight(bar2.offsetHeight);
+      window.addEventListener("resize", function () {
+        if (bar2.classList.contains("on")) { setBarHeight(bar2.offsetHeight); }
+      });
+    }
+  }
+  document.getElementById("consent-yes").addEventListener("click", function () { decide(true); });
+  document.getElementById("consent-no").addEventListener("click", function () { decide(false); });
+})();
+</script>
+
+<noscript><img height="1" width="1" style="display:none" alt=""
+  src="https://www.facebook.com/tr?id=27813364368363421&ev=PageView&noscript=1"></noscript>
 
 <script type="application/ld+json">
 {
@@ -244,10 +612,10 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,6.2vw,3.5rem)
   "name":"Orla",
   "alternateName":"Orla – Menopause Tracker",
   "applicationCategory":"HealthApplication",
-  "operatingSystem":"iOS",
+  "operatingSystem":"iOS 17.0 or later",
   "url":"https://orla.tjbventures.ai/",
   "downloadUrl":"https://apps.apple.com/app/id6797506794",
-  "description":"A private menopause and HRT symptom tracker for iPhone. Log symptoms, cycles and hormone therapy over months, then turn it into one clear PDF for your next appointment.",
+  "description":"A private menopause and HRT symptom tracker for iPhone. Log symptoms, cycles and hormone therapy over months, then export one clear PDF for your next appointment.",
   "image":"https://orla.tjbventures.ai/assets/og-image.png",
   "publisher":{
     "@type":"Organization",
@@ -258,6 +626,19 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,6.2vw,3.5rem)
   "offers":[
     {"@type":"Offer","price":"9.99","priceCurrency":"USD","category":"Monthly subscription"},
     {"@type":"Offer","price":"49.99","priceCurrency":"USD","category":"Annual subscription"}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Is it really free for seven days?","acceptedAnswer":{"@type":"Answer","text":"Yes — seven days free on either plan. It renews afterwards unless you cancel first."}},
+    {"@type":"Question","name":"How do I cancel?","acceptedAnswer":{"@type":"Answer","text":"In your Apple ID settings, under Subscriptions, any time before the seven days are up."}},
+    {"@type":"Question","name":"What does it cost after that?","acceptedAnswer":{"@type":"Answer","text":"A monthly plan or a yearly one. The App Store shows the price for your country before you confirm anything."}},
+    {"@type":"Question","name":"Is there an Android version?","acceptedAnswer":{"@type":"Answer","text":"Not yet. Orla is iPhone only, and needs iOS 17 or later."}}
   ]
 }
 </script>
