@@ -540,10 +540,6 @@ fbq('track', 'ViewContent', {
        browser on 5 Sep. The user taps; iOS hands off to the App Store. */
     links[i].addEventListener("click", function () {
       try {
-        fbq('track', 'StartTrial', {
-          content_name: 'orla-landing',
-          variant: ORLA.variant
-        });
         fbq('trackCustom', 'AppStoreClick', {
           variant: ORLA.variant,
           ct: ORLA.ct
