@@ -231,16 +231,6 @@ hr.rule{border:0;border-top:1px solid var(--hairline);margin:0}
 </head>
 <body>
 
-<!-- =====================================================================
-     META PIXEL
-     TJ: create the pixel in Events Manager (Data sources -> Add -> Web),
-     copy its numeric ID, and paste it in place of REPLACE_WITH_PIXEL_ID.
-     It appears in EXACTLY TWO places: the constant below and the
-     <noscript> image at the end of <body>. Nothing else needs changing.
-     While the placeholder is in place the page installs a console-logging
-     stub instead of loading Meta's script, so nothing is sent anywhere
-     and the click events can still be verified locally.
-     ===================================================================== -->
 <script>
 var PIXEL_ID = "2101895617031142";
 
@@ -568,15 +558,6 @@ fbq('track', 'ViewContent', {
   }
   function decide(granted) {
     try { fbq('consent', granted ? 'grant' : 'revoke'); } catch (e) {}
-    if (granted) {
-      try {
-        fbq('track', 'PageView');
-        fbq('track', 'ViewContent', {
-          content_name: 'orla-landing',
-          content_category: 'orla',
-          variant: ORLA.variant
-        });
-      } catch (e) {}
     }
     try { localStorage.setItem(KEY, granted ? "grant" : "revoke"); } catch (e) {}
     bar2.classList.remove("on");
