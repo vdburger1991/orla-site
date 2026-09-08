@@ -90,7 +90,7 @@ events can still be read in the console.
 - `?v=<variant>` swaps the headline and subline to match the ad that sent the
   visitor: `347am`, `fourtaps`, `saidvslogged`, `handover`, `default`.
   Anything unrecognised falls back to `default`.
-- `?ad=<token>` becomes the App Store `ct=` campaign token (default `meta_lp`).
+- `?ad=<token>` becomes the App Store `ct=` campaign token (default `site_button`).
   Every App Store link on the page is
   `…/app/id6797506794?pt=129257514&ct=<token>&mt=8`.
 

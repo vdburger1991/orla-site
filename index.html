@@ -271,8 +271,34 @@ var ORLA = (function () {
   return {
     variant: variant,
     copy: VARIANTS[variant],
-    ct: clean(q.get("ad"), "meta_lp")
+    ct: clean(q.get("ad"), "site_button")
   };
+})();
+
+/* ---- which storefront's price to show -------------------------------
+   Orla costs $9.99 / $49.99 in the US store and £9.99 / £49.99 in the GB
+   store. Those are the only two storefronts Orla is sold in.
+   One storefront per visitor, never both, and never a bare number
+   without its currency. Anyone we cannot place keeps the HTML default,
+   which names no figure and points at the App Store instead.           */
+var ORLA_STORE = (function () {
+  try {
+    var tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
+    var lang = (navigator.language || "").toLowerCase();
+    if (lang === "en-gb" || tz === "Europe/London") {
+      return {
+        cta: "then £9.99 a month or £49.99 a year",
+        faq: "£9.99 a month, or £49.99 a year. The App Store confirms it before you pay."
+      };
+    }
+    if (tz.indexOf("America/") === 0) {
+      return {
+        cta: "then $9.99 a month or $49.99 a year",
+        faq: "$9.99 a month, or $49.99 a year. The App Store confirms it before you pay."
+      };
+    }
+    return null;
+  } catch (e) { return null; }
 })();
 
 /* ---- consent -------------------------------------------------------
@@ -340,7 +366,7 @@ fbq('track', 'ViewContent', {
           </script>
 
           <div class="cta">
-            <a class="badge appstore" href="https://apps.apple.com/app/id6797506794?pt=129257514&amp;ct=meta_lp&amp;mt=8">
+            <a class="badge appstore" href="https://apps.apple.com/app/id6797506794?pt=129257514&amp;ct=site_button&amp;mt=8">
               <img src="/assets/badge/appstore-badge-white.svg" alt="Download Orla on the App Store" width="143.6" height="48">
             </a>
             <span class="trial">
@@ -443,7 +469,7 @@ fbq('track', 'ViewContent', {
           </div>
           <div>
             <div class="q">What does it cost after that?</div>
-            <p class="a">A monthly plan or a yearly one. The App Store shows the price for your country before you confirm anything.</p>
+            <p class="a" id="faq-price">A monthly plan or a yearly one. The App Store shows the price for your country before you confirm anything.</p>
           </div>
           <div>
             <div class="q">Is there an Android version?</div>
@@ -460,7 +486,7 @@ fbq('track', 'ViewContent', {
     <div class="wrap inner">
       <h2>Start the record tonight.</h2>
       <div class="cta">
-        <a class="badge appstore" href="https://apps.apple.com/app/id6797506794?pt=129257514&amp;ct=meta_lp&amp;mt=8">
+        <a class="badge appstore" href="https://apps.apple.com/app/id6797506794?pt=129257514&amp;ct=site_button&amp;mt=8">
           <img src="/assets/badge/appstore-badge-white.svg" alt="Download Orla on the App Store" width="143.6" height="48" loading="lazy">
         </a>
         <span class="trial">
@@ -502,7 +528,7 @@ fbq('track', 'ViewContent', {
     <b>7 days free</b>
     <span>then a monthly or yearly plan</span>
   </span>
-  <a class="badge appstore" href="https://apps.apple.com/app/id6797506794?pt=129257514&amp;ct=meta_lp&amp;mt=8">
+  <a class="badge appstore" href="https://apps.apple.com/app/id6797506794?pt=129257514&amp;ct=site_button&amp;mt=8">
     <img src="/assets/badge/appstore-badge-white.svg" alt="Download Orla on the App Store" width="125.7" height="42" loading="lazy">
   </a>
 </div>
@@ -522,20 +548,55 @@ fbq('track', 'ViewContent', {
   var links = document.querySelectorAll("a.appstore");
   var href = STORE + "?pt=129257514&ct=" + encodeURIComponent(ORLA.ct) + "&mt=8";
 
+  /* The Meta pixel sends AppStoreClick as an image GET to facebook.com/tr.
+     Fired on "click" alone, that request is still in flight when iOS hands
+     off to the App Store, and the browser is free to abandon it — an
+     undercount we cannot see or size. "pointerdown" fires on touch-down,
+     a couple of hundred milliseconds before the finger lifts, which gives
+     the request a head start. Both listeners share one 1.5s latch so a
+     normal tap sends exactly one event. The cost is a small, known
+     OVER-count (a finger that presses and then drags away still sends),
+     traded for an unknown under-count. Deliberate. */
+  var lastSent = 0;
+  function sendTap() {
+    var now = Date.now();
+    if (now - lastSent < 1500) { return; }
+    lastSent = now;
+    try {
+      fbq('trackCustom', 'AppStoreClick', {
+        variant: ORLA.variant,
+        ct: ORLA.ct
+      });
+    } catch (e) { /* measurement must never block the tap */ }
+  }
+
   for (var i = 0; i < links.length; i++) {
     links[i].setAttribute("href", href);
     /* Fire the events, then let the browser follow the link normally.
        No preventDefault, no timers, no script-driven navigation — an
        auto-redirect is exactly what stalled inside Instagram's in-app
        browser on 5 Sep. The user taps; iOS hands off to the App Store. */
-    links[i].addEventListener("click", function () {
-      try {
-        fbq('trackCustom', 'AppStoreClick', {
-          variant: ORLA.variant,
-          ct: ORLA.ct
-        });
-      } catch (e) { /* measurement must never block the tap */ }
-    });
+    links[i].addEventListener("pointerdown", sendTap);
+    links[i].addEventListener("click", sendTap);
+  }
+
+  /* ---- the price, in the visitor's own currency, next to the button ----
+     "then a monthly or yearly plan" left the one thing she needs to decide
+     on the other side of a tap. If we can place her storefront we name the
+     figure here; if we cannot, the HTML default stands and points her at
+     the App Store instead. One storefront, never two. */
+  if (ORLA_STORE) {
+    var trials = document.querySelectorAll(".trial span");
+    for (var t = 0; t < trials.length; t++) { trials[t].textContent = ORLA_STORE.cta; }
+    var faq = document.getElementById("faq-price");
+    if (faq) { faq.textContent = ORLA_STORE.faq; }
+    /* The note under the button pointed at the App Store for the price.
+       We have just given her the price, so the note keeps the part that
+       still matters: how and by when to cancel. */
+    var note = document.querySelector(".hero .cta-note");
+    if (note) {
+      note.textContent = "Cancel in your Apple ID settings any time before the seven days are up.";
+    }
   }
 
   /* ---- sticky CTA: on once the hero CTA has scrolled out ---- */
